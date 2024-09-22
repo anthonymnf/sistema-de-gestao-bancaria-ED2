@@ -1,0 +1,23 @@
+# Ignorar arquivos .exe
+*.exe
+
+# Ignorar a pasta "output" e tudo dentro dela
+/output/
+output/
+
+# Ignorar arquivos temporários do sistema
+*.tmp
+*.temp
+*.swp
+*.bak
+*.swo
+*~
+
+# Ignorar arquivos temporários de IDEs e editores de texto comuns
+.vscode/
+.idea/
+*.user
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+
