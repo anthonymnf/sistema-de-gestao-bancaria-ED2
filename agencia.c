@@ -23,24 +23,44 @@ Agencia *criar_agencia(int codigo, const char *nome, const char *localizacao, co
 }
 
 // Insere uma agência na árvore
-void inserir_agencia(Agencia **raiz, Agencia *novaAgencia) {
-    if (*raiz == NULL) {
-        *raiz = novaAgencia;
-    } else if (novaAgencia->codigo < (*raiz)->codigo) {
-        inserir_agencia(&(*raiz)->esquerda, novaAgencia);
-    } else if (novaAgencia->codigo > (*raiz)->codigo) {
-        inserir_agencia(&(*raiz)->direita, novaAgencia);
-    } else {
-        printf("Agência com código %d já existe.\n", novaAgencia->codigo);
-        free(novaAgencia);
-    }
+void inserir_agencia(Agencia **raiz, Agencia *novaAgencia)
+{
+  if (*raiz == NULL)
+  {
+    *raiz = novaAgencia;
+  }
+  else if (novaAgencia->codigo < (*raiz)->codigo)
+  {
+    inserir_agencia(&(*raiz)->esquerda, novaAgencia);
+  }
+  else if (novaAgencia->codigo > (*raiz)->codigo)
+  {
+    inserir_agencia(&(*raiz)->direita, novaAgencia);
+  }
+  else
+  {
+    printf("Agência com código %d já existe.\n", novaAgencia->codigo);
+    free(novaAgencia);
+  }
 }
 
 // Busca uma agência pelo código
-Agencia *buscar_agencia(Agencia *raiz, int codigo) {
-    if (raiz == NULL || raiz->codigo == codigo)
-        return raiz;
-    if (codigo < raiz->codigo)
-        return buscar_agencia(raiz->esquerda, codigo);
-    return buscar_agencia(raiz->direita, codigo);
+Agencia *buscar_agencia(Agencia *raiz, int codigo)
+{
+  if (raiz == NULL || raiz->codigo == codigo)
+    return raiz;
+  if (codigo < raiz->codigo)
+    return buscar_agencia(raiz->esquerda, codigo);
+  return buscar_agencia(raiz->direita, codigo);
+}
+
+// Lista todas as agências
+void listar_agencias(Agencia *raiz)
+{
+  if (raiz != NULL)
+  {
+    listar_agencias(raiz->esquerda);
+    printf("Agência: %d, Nome: %s, Localização: %s, Horário: %s\n", raiz->codigo, raiz->nome, raiz->localizacao, raiz->horario);
+    listar_agencias(raiz->direita);
+  }
 }
