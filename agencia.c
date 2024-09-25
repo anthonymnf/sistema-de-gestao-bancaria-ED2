@@ -21,3 +21,17 @@ Agencia *criar_agencia(int codigo, const char *nome, const char *localizacao, co
   novaAgencia->direita = NULL;
   return novaAgencia;
 }
+
+// Insere uma agência na árvore
+void inserir_agencia(Agencia **raiz, Agencia *novaAgencia) {
+    if (*raiz == NULL) {
+        *raiz = novaAgencia;
+    } else if (novaAgencia->codigo < (*raiz)->codigo) {
+        inserir_agencia(&(*raiz)->esquerda, novaAgencia);
+    } else if (novaAgencia->codigo > (*raiz)->codigo) {
+        inserir_agencia(&(*raiz)->direita, novaAgencia);
+    } else {
+        printf("Agência com código %d já existe.\n", novaAgencia->codigo);
+        free(novaAgencia);
+    }
+}
