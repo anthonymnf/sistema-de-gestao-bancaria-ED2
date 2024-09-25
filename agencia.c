@@ -35,3 +35,12 @@ void inserir_agencia(Agencia **raiz, Agencia *novaAgencia) {
         free(novaAgencia);
     }
 }
+
+// Busca uma agência pelo código
+Agencia *buscar_agencia(Agencia *raiz, int codigo) {
+    if (raiz == NULL || raiz->codigo == codigo)
+        return raiz;
+    if (codigo < raiz->codigo)
+        return buscar_agencia(raiz->esquerda, codigo);
+    return buscar_agencia(raiz->direita, codigo);
+}
