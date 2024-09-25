@@ -98,3 +98,14 @@ Agencia *ler_agencias(FILE *file)
   }
   return raiz;
 }
+
+
+// Libera as agências
+void liberar_agencias(Agencia *raiz) {
+    if (raiz != NULL) {
+        liberar_agencias(raiz->esquerda);
+        liberar_agencias(raiz->direita);
+        liberar_contas(raiz->contas); // Libera a árvore ou lista de contas
+        free(raiz);
+    }
+}
