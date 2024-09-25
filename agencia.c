@@ -67,16 +67,34 @@ void listar_agencias(Agencia *raiz)
 
 // Salva as agências e suas contas no arquivo
 // Exemplo para salvar as agências e contas corretamente
-void salvar_agencias(Agencia *raiz, FILE *file) {
-    if (raiz) {
-        fprintf(file, "Agencia %d\tNome:%s\tLocalizacao:%s\tHorario:%s\n", 
-                raiz->codigo, raiz->nome, raiz->localizacao, raiz->horario);
-        
-        // Chama a função para salvar as contas da agência
-        salvar_contas(raiz->contas, file);
+void salvar_agencias(Agencia *raiz, FILE *file)
+{
+  if (raiz)
+  {
+    fprintf(file, "Agencia %d\tNome:%s\tLocalizacao:%s\tHorario:%s\n",
+            raiz->codigo, raiz->nome, raiz->localizacao, raiz->horario);
 
-        // Chamada recursiva para o próximo nó na árvore
-        salvar_agencias(raiz->esquerda, file);
-        salvar_agencias(raiz->direita, file);
-    }
+    // Chama a função para salvar as contas da agência
+    salvar_contas(raiz->contas, file);
+
+    // Chamada recursiva para o próximo nó na árvore
+    salvar_agencias(raiz->esquerda, file);
+    salvar_agencias(raiz->direita, file);
+  }
+}
+
+// Lê as agências e suas contas do arquivo
+Agencia *ler_agencias(FILE *file)
+{
+  Agencia *raiz = NULL;
+  int codigo;
+  char nome[51], localizacao[101], horario[20];
+  // Removi a duplicação do código
+  while (fscanf(file, "Agencia %d\tNome:%50[^\t]\tLocalizacao:%100[^\t]\tHorario:%19[^\n]\n", &codigo, nome, localizacao, horario) == 4)
+  {
+    Agencia *novaAgencia = criar_agencia(codigo, nome, localizacao, horario);
+    novaAgencia->contas = ler_contas(file); // Lê as contas dessa agência
+    inserir_agencia(&raiz, novaAgencia);
+  }
+  return raiz;
 }
