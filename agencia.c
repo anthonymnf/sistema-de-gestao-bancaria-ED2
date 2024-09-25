@@ -64,3 +64,19 @@ void listar_agencias(Agencia *raiz)
     listar_agencias(raiz->direita);
   }
 }
+
+// Salva as agências e suas contas no arquivo
+// Exemplo para salvar as agências e contas corretamente
+void salvar_agencias(Agencia *raiz, FILE *file) {
+    if (raiz) {
+        fprintf(file, "Agencia %d\tNome:%s\tLocalizacao:%s\tHorario:%s\n", 
+                raiz->codigo, raiz->nome, raiz->localizacao, raiz->horario);
+        
+        // Chama a função para salvar as contas da agência
+        salvar_contas(raiz->contas, file);
+
+        // Chamada recursiva para o próximo nó na árvore
+        salvar_agencias(raiz->esquerda, file);
+        salvar_agencias(raiz->direita, file);
+    }
+}
