@@ -52,3 +52,22 @@ void inserir_conta(ContaBancaria **raiz, ContaBancaria *novaConta)
         free(novaConta);                                                 // Libera a memória da nova conta
     }
 }
+
+
+// Função para salvar as contas no arquivo contas.txt
+void salvar_contas(ContaBancaria *raiz, FILE *file)
+{
+    if (raiz != NULL)
+    {
+        salvar_contas(raiz->esquerda, file); // Salvar contas à esquerda
+
+        // Salvar a conta atual
+        fprintf(file, "Agencia %d\tConta %d\tCliente:%s\tData:%s\tSaldo:%.2f\tStatus:%s\n",
+                raiz->agenciaNumero, raiz->numero, raiz->nomeCliente, raiz->dataAbertura,
+                raiz->saldo, raiz->status);
+
+        salvar_contas(raiz->direita, file); // Salvar contas à direita
+    }
+}
+
+
