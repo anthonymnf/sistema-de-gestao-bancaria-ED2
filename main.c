@@ -30,6 +30,7 @@ int main()
     bool numValido = false; // Variável para verificar se o numero do codigo da agencia fornecido é válido
     char input[50];         // Armazena número como string
     int numAgencia;         //  Variável para armazenar o valor do codigo de uma agência
+    int localizacaoValida = 0;  // Variável para verificar se a localização da agência fornecida é válida
 
     int codigo;
     char nome[51], localizacao[101], horario[20];
@@ -82,15 +83,28 @@ int main()
                 limpa_buffer();
             }
 
-            printf("Digite a localizacao da agencia (apenas letras): ");
-            scanf(" %[^\n]s", localizacao);
-            limpa_buffer();
-            while (!verificar_somente_letras(localizacao))
+            // Verifica se a localização da agência fornecida é válida
+            do
             {
-                printf("Localizacao invalida. Digite novamente: ");
-                scanf(" %[^\n]s", localizacao);
-                limpa_buffer();
-            }
+                printf("Informe a localizacao da agencia: ");
+                scanf(" %[^\n]", localizacao);
+                getchar(); // Limpar o buffer
+
+                localizacaoValida = 1;
+                for (int i = 0; localizacao[i] != '\0'; i++)
+                {
+                    if (!isalpha(localizacao[i]) && !isspace(localizacao[i]))
+                    {
+                        localizacaoValida = 0;
+                        break;
+                    }
+                }
+
+                if (!localizacaoValida)
+                {
+                    printf("A localizacao digitada contem caracteres invalidos.\n");
+                }
+            } while (!localizacaoValida);
 
             printf("Digite o horario da agencia: ");
             scanf(" %[^\n]s", horario);
@@ -136,15 +150,28 @@ int main()
                 if (escolha == 1)
                 {
                     // Lógica para adicionar nova agência (similar ao case 1)
-                    int codigo;
-                    char nome[51], localizacao[101], horario[20];
-
-                    printf("Digite o codigo da agencia (apenas numeros): ");
-                    while (scanf("%d", &codigo) != 1)
+                    // Verifica se o numero do codigo da agencia fornecido é válido
+                    do
                     {
-                        printf("Codigo invalido. Digite novamente: ");
-                        limpa_buffer();
-                    }
+                        printf("Informe o codigo da agencia: ");
+                        if (scanf(" %49s", input) != 1)
+                        {
+                            printf("Entrada invalida. Tente novamente.\n");
+                            while (getchar() != '\n')
+                            {
+                                // Limpa o buffer de entrada para evitar loop infinito
+                            }
+                        }
+                        else if (!entradaContemApenasDigitos(input))
+                        {
+                            printf("Entrada invalida. Apenas numeros sao permitidos. Tente novamente.\n");
+                        }
+                        else
+                        {
+                            sscanf(input, "%d", &codigo);
+                            numValido = true;
+                        }
+                    } while (!numValido);
 
                     printf("Digite o nome da agencia (apenas letras): ");
                     scanf(" %[^\n]s", nome);
