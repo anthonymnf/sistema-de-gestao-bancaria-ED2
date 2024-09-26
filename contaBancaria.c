@@ -70,4 +70,13 @@ void salvar_contas(ContaBancaria *raiz, FILE *file)
     }
 }
 
-
+// Função para liberar as contas  
+void liberar_contas(ContaBancaria *raiz)
+{
+    if (raiz != NULL)
+    {
+        liberar_contas(raiz->esquerda);
+        liberar_contas(raiz->direita);
+        free(raiz);
+    }
+}
