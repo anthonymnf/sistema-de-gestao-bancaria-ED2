@@ -112,3 +112,17 @@ void liberar_agencias(Agencia *raiz)
     free(raiz);
   }
 }
+
+void salvar_arquivo(Agencia *raiz, const char *nome_arquivo)
+{
+  FILE *file = fopen(nome_arquivo, "w");
+  if (file)
+  {
+    salvar_agencias(raiz, file);
+    fclose(file);
+  }
+  else
+  {
+    printf("Erro ao abrir o arquivo para salvar.\n");
+  }
+}
