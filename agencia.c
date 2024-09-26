@@ -150,3 +150,16 @@ void listar_contas_agencia(ContaBancaria *raiz, int agenciaNumero)
     listar_contas_agencia(raiz->direita, agenciaNumero);
   }
 }
+
+int verificar_somente_letras(const char *str)
+{
+  while (*str)
+  {
+    if (!isalpha(*str) && !isspace(*str))
+    {
+      return 0; // Retorna 0 se não for letra ou espaço
+    }
+    str++;
+  }
+  return 1; // Retorna 1 se todas forem letras ou espaços
+}
