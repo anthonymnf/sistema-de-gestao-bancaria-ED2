@@ -14,7 +14,7 @@ void limpar_buffer()
 }
 
 
-nt main()
+int main()
 {
     Agencia *raiz_agencias = NULL;
     FILE *file;
