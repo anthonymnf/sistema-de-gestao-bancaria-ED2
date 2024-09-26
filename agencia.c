@@ -144,7 +144,7 @@ void listar_contas_agencia(ContaBancaria *raiz, int agenciaNumero)
     listar_contas_agencia(raiz->esquerda, agenciaNumero);
     if (raiz->agenciaNumero == agenciaNumero)
     {
-      printf("Numero:%d\tCliente:%s\tData:%s\tSaldo:%.2f\tStatus:%s\n",
+      printf("Numero da Conta: %d\tCliente: %s\tData: %s\tSaldo: %.2f\tStatus: %s\n",
              raiz->numero, raiz->nomeCliente, raiz->dataAbertura, raiz->saldo, raiz->status);
     }
     listar_contas_agencia(raiz->direita, agenciaNumero);
