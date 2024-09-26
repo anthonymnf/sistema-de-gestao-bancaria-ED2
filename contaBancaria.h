@@ -19,14 +19,28 @@ typedef struct ContaBancaria
     struct ContaBancaria *direita;
 } ContaBancaria;
 
-// Funções para manipulação de contas bancárias
+// Cria uma nova conta bancária com os parâmetros fornecidos.
 ContaBancaria *criar_conta(int numero, int agenciaNumero, const char *nomeCliente, const char *dataAbertura, float saldo, const char *status);
+
+// Insere uma nova conta bancária na árvore de contas.
 void inserir_conta(ContaBancaria **raiz, ContaBancaria *novaConta);
+
+// Lista todas as contas de uma agência específica.
 void listar_contas_agencia(ContaBancaria *raiz, int agenciaNumero);
+
+// Salva todas as contas bancárias em um arquivo.
 void salvar_contas(ContaBancaria *contas, FILE *file);
+
+// Libera a memória da árvore de contas bancárias.
 void liberar_contas(ContaBancaria *raiz);
+
+// Lê uma opção entre um intervalo de valores.
 char le_opcao(int menorValor, int maiorValor);
+
+// Limpa o buffer de entrada.
 void limpa_buffer(void);
+
+// Verifica se a entrada contém apenas dígitos.
 bool entradaContemApenasDigitos(const char *entrada);
 
 #endif // CONTABANCARIA_H
