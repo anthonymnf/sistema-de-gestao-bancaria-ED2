@@ -4,13 +4,13 @@ Este projeto implementa um sistema de gestão bancária em linguagem C. Ele perm
 
 ## 🔥 Introdução
 
-O Sistema de Gestão Bancária tem como objetivo facilitar a manipulação de contas e agências bancárias. Ele permite realizar operações como adicionar e listar contas bancárias e também permite adicionar, listar e buscar agências.
+O Sistema de Gestão Bancária foi desenvolvido para simplificar a administração de contas e agências bancárias. Através dele, é possível realizar operações como adicionar e listar tanto contas quanto agências de forma eficiente. Para garantir a persistência dos dados, o sistema armazena as informações em dois arquivos: `agencias.txt`, que contém os registros de todas as agências cadastradas, e `contas.txt`, que armazena os dados das contas bancárias registradas. Isso assegura que nenhuma informação será perdida entre sessões.
 
 ### Funcionalidades:
 
 - Cadastro e gerenciamento de clientes e contas bancárias.
-- Busca de agências por número.
-- Listagem de contas e de agências.
+- Listagem de agências cadastradas.
+- Listagem de todas as contas bancárias cadastradas em uma agência.
 - Persistência de dados em arquivos de texto.
 
 ### ⚙️ Pré-requisitos
@@ -42,7 +42,7 @@ Siga os seguintes passos para rodar o projeto localmente:
    ./sistema
    ```
 
-4. O sistema criará um arquivo `dados.txt` onde as informações das agências e contas bancárias serão armazenadas e persistidas.
+4. O sistema criará dois arquivos no formato `.txt` onde as informações das agências e contas bancárias serão armazenadas e persistidas.
 
 ## 🛠️ Executando os testes
 
@@ -50,7 +50,7 @@ Para testar as funcionalidades do sistema, execute o programa e siga as opções
 
 - Cadastrar uma nova agência e uma nova conta bancária.
 - Listar todas as agências cadastradas.
-- Buscar a agência pelo código para ver todas as informações cadastradas.
+- Listar todas as contas bancárias cadastradas nessa agência que foi criada.
 
 ## 📦 Tecnologias usadas:
 
@@ -78,7 +78,7 @@ Este projeto está sob a licença MIT - veja o arquivo [LICENSE.md](./LICENSE.md
 
 #### Como os dados são armazenados?
 
-Os dados são armazenados em um arquivo de texto (`dados.txt`) que é atualizado conforme as operações no sistema.
+Os dados são armazenados em dois arquivos de texto no formato `.txt` que é atualizado conforme as operações no sistema.
 
 #### Como faço para adicionar uma nova agência?
 
