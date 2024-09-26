@@ -104,3 +104,13 @@ char le_opcao(int menorvalor, int maiorvalor)
    }
    return op;
 }
+
+
+void limpa_buffer(void)
+{
+   int valorlido;
+   do
+   {
+      valorlido = getchar();
+   } while ((valorlido != '\n') && (valorlido != EOF));
+}

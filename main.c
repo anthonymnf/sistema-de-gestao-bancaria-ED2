@@ -13,7 +13,6 @@ void limpar_buffer()
     }
 }
 
-
 int main()
 {
     Agencia *raiz_agencias = NULL;
@@ -35,19 +34,21 @@ int main()
         fclose(file);
     }
 
-    char opcao;          // Armazena a opção verificada
+    char opcao; // Armazena a opção verificada
     do
     {
-        printf("\n1. Adicionar nova agencia");
-        printf("\n2. Adicionar nova conta bancaria");
-        printf("\n3. Listar todas as agencias.");
-        printf("\n4. Listar todas as contas de uma agencia pelo codigo.");
-        printf("\n5. Sair");
+        printf("\n\t MENU DE OPCOES \n");
+        printf("\n1. ADICIONAR NOVA AGENCIA");
+        printf("\n2. ADICIONAR NOVA CONTA BANCARIA");
+        printf("\n3. LISTAR TODAS AS AGENCIAS.");
+        printf("\n4. LISTAR TODAS AS CONTAS DE UMA AGENCIA PELO CODIGO.");
+        printf("\n5. SAIR\n");
+
         opcao = le_opcao('1', '5');
 
         switch (opcao)
         {
-        case 1:
+        case '1':
         {
             int codigo;
             char nome[51], localizacao[101], horario[20];
@@ -96,7 +97,7 @@ int main()
             break;
         }
 
-        case 2:
+        case '2':
         {
             int numero, agenciaNumero;
             char nomeCliente[51], dataAbertura[11], status[10];
@@ -208,10 +209,10 @@ int main()
             }
             break;
         }
-        case 3:
+        case '3':
             listar_agencias(raiz_agencias); // Exibir todas as agências
             break;
-        case 4:
+        case '4':
         {
             int codigo_agencia;
             printf("Digite o codigo da agencia: ");
@@ -230,6 +231,11 @@ int main()
             }
             break;
         }
+         case '5':
+
+            printf("Programa finalizado com sucesso! Obrigado por usar nosso programa.\n");
+            break;
+
         }
     } while (opcao != 5);
 

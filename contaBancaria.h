@@ -20,5 +20,6 @@ void listar_contas_agencia(ContaBancaria *raiz, int agenciaNumero);
 void salvar_contas(ContaBancaria *contas, FILE *file);
 void liberar_contas(ContaBancaria *raiz);
 char le_opcao(int menorValor, int maiorValor);
+void limpa_buffer(void);
 
 #endif // CONTABANCARIA_H
