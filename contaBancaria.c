@@ -1,7 +1,4 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "contaBancaria.h"
 
 ContaBancaria *criar_conta(int numero, int agenciaNumero, const char *nomeCliente, const char *dataAbertura, float saldo, const char *status)
@@ -113,4 +110,18 @@ void limpa_buffer(void)
    {
       valorlido = getchar();
    } while ((valorlido != '\n') && (valorlido != EOF));
+}
+
+
+// Função para verificar se a entrada contém apenas dígitos (números)
+bool entradaContemApenasDigitos(const char *entrada)
+{
+   for (int i = 0; entrada[i] != '\0'; i++)
+   {
+      if (!isdigit(entrada[i]))
+      {
+         return false;
+      }
+   }
+   return true;
 }

@@ -2,16 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "agencia.h"
+#include <stdbool.h>
 #include "contaBancaria.h"
-
-// Função auxiliar para limpar o buffer de entrada de forma portátil
-void limpar_buffer()
-{
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF)
-    {
-    }
-}
 
 int main()
 {
@@ -34,12 +26,18 @@ int main()
         fclose(file);
     }
 
-    char opcao; // Armazena a opção verificada
+    char opcao;             // Armazena a opção verificada
+    bool numValido = false; // Variável para verificar se o numero do codigo da agencia fornecido é válido
+    char input[50];         // Armazena número como string
+    int numAgencia;         //  Variável para armazenar o valor do codigo de uma agência
+
+    int codigo;
+    char nome[51], localizacao[101], horario[20];
     do
     {
         printf("\n\t MENU DE OPCOES \n");
-        printf("\n1. ADICIONAR NOVA AGENCIA");
-        printf("\n2. ADICIONAR NOVA CONTA BANCARIA");
+        printf("\n1. ADICIONAR NOVA AGENCIA.");
+        printf("\n2. ADICIONAR NOVA CONTA BANCARIA.");
         printf("\n3. LISTAR TODAS AS AGENCIAS.");
         printf("\n4. LISTAR TODAS AS CONTAS DE UMA AGENCIA PELO CODIGO.");
         printf("\n5. SAIR\n");
@@ -50,39 +48,53 @@ int main()
         {
         case '1':
         {
-            int codigo;
-            char nome[51], localizacao[101], horario[20];
 
-            printf("Digite o codigo da agencia (apenas numeros): ");
-            while (scanf("%d", &codigo) != 1)
+            // Verifica se o numero do codigo da agencia fornecido é válido
+            do
             {
-                printf("Codigo invalido. Digite novamente: ");
-                limpar_buffer();
-            }
+                printf("Informe o codigo da agencia: ");
+                if (scanf(" %49s", input) != 1)
+                {
+                    printf("Entrada invalida. Tente novamente.\n");
+                    while (getchar() != '\n')
+                    {
+                        // Limpa o buffer de entrada para evitar loop infinito
+                    }
+                }
+                else if (!entradaContemApenasDigitos(input))
+                {
+                    printf("Entrada invalida. Apenas numeros sao permitidos. Tente novamente.\n");
+                }
+                else
+                {
+                    sscanf(input, "%d", &codigo);
+                    numValido = true;
+                }
+            } while (!numValido);
 
             printf("Digite o nome da agencia (apenas letras): ");
             scanf(" %[^\n]s", nome);
-            limpar_buffer();
+            limpa_buffer();
             while (!verificar_somente_letras(nome))
             {
                 printf("Nome invalido. Digite novamente: ");
                 scanf(" %[^\n]s", nome);
-                limpar_buffer();
+                limpa_buffer();
             }
 
             printf("Digite a localizacao da agencia (apenas letras): ");
             scanf(" %[^\n]s", localizacao);
-            limpar_buffer();
+            limpa_buffer();
             while (!verificar_somente_letras(localizacao))
             {
                 printf("Localizacao invalida. Digite novamente: ");
                 scanf(" %[^\n]s", localizacao);
-                limpar_buffer();
+                limpa_buffer();
             }
 
             printf("Digite o horario da agencia: ");
             scanf(" %[^\n]s", horario);
-            limpar_buffer();
+            limpa_buffer();
 
             Agencia *novaAgencia = criar_agencia(codigo, nome, localizacao, horario);
             inserir_agencia(&raiz_agencias, novaAgencia);
@@ -105,11 +117,11 @@ int main()
 
             printf("Digite o numero da conta: ");
             scanf("%d", &numero);
-            limpar_buffer();
+            limpa_buffer();
 
             printf("Digite o numero da agencia: ");
             scanf("%d", &agenciaNumero);
-            limpar_buffer();
+            limpa_buffer();
 
             // Verificar se a agência existe
             Agencia *agencia = buscar_agencia(raiz_agencias, agenciaNumero);
@@ -119,7 +131,7 @@ int main()
                 int escolha;
                 printf("1. Criar nova agencia\n2. Ver agencias disponiveis\nEscolha uma opcao: ");
                 scanf("%d", &escolha);
-                limpar_buffer();
+                limpa_buffer();
 
                 if (escolha == 1)
                 {
@@ -131,32 +143,32 @@ int main()
                     while (scanf("%d", &codigo) != 1)
                     {
                         printf("Codigo invalido. Digite novamente: ");
-                        limpar_buffer();
+                        limpa_buffer();
                     }
 
                     printf("Digite o nome da agencia (apenas letras): ");
                     scanf(" %[^\n]s", nome);
-                    limpar_buffer();
+                    limpa_buffer();
                     while (!verificar_somente_letras(nome))
                     {
                         printf("Nome invalido. Digite novamente: ");
                         scanf(" %[^\n]s", nome);
-                        limpar_buffer();
+                        limpa_buffer();
                     }
 
                     printf("Digite a localizacao da agencia (apenas letras): ");
                     scanf(" %[^\n]s", localizacao);
-                    limpar_buffer();
+                    limpa_buffer();
                     while (!verificar_somente_letras(localizacao))
                     {
                         printf("Localizacao invalida. Digite novamente: ");
                         scanf(" %[^\n]s", localizacao);
-                        limpar_buffer();
+                        limpa_buffer();
                     }
 
                     printf("Digite o horario da agencia: ");
                     scanf(" %[^\n]s", horario);
-                    limpar_buffer();
+                    limpa_buffer();
 
                     Agencia *novaAgencia = criar_agencia(codigo, nome, localizacao, horario);
                     inserir_agencia(&raiz_agencias, novaAgencia);
@@ -180,16 +192,16 @@ int main()
             {
                 printf("Digite o nome do cliente: ");
                 scanf(" %[^\n]", nomeCliente);
-                limpar_buffer();
+                limpa_buffer();
                 printf("Digite a data de abertura (dd/mm/aaaa): ");
                 scanf(" %[^\n]", dataAbertura);
-                limpar_buffer();
+                limpa_buffer();
                 printf("Digite o saldo: ");
                 scanf("%f", &saldo);
-                limpar_buffer();
+                limpa_buffer();
                 printf("Digite o status da conta: ");
                 scanf(" %[^\n]", status);
-                limpar_buffer();
+                limpa_buffer();
 
                 // Criar a nova conta
                 ContaBancaria *novaConta = criar_conta(numero, agenciaNumero, nomeCliente, dataAbertura, saldo, status);
@@ -231,13 +243,12 @@ int main()
             }
             break;
         }
-         case '5':
+        case '5':
 
             printf("Programa finalizado com sucesso! Obrigado por usar nosso programa.\n");
             break;
-
         }
-    } while (opcao != 5);
+    } while (opcao != '5');
 
     // Liberar a memória alocada para as agências e suas contas
     liberar_agencias(raiz_agencias);
