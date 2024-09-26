@@ -35,7 +35,7 @@ int main()
         fclose(file);
     }
 
-    int opcao;
+    char opcao;          // Armazena a opção verificada
     do
     {
         printf("\n1. Adicionar nova agencia");
@@ -43,9 +43,7 @@ int main()
         printf("\n3. Listar todas as agencias.");
         printf("\n4. Listar todas as contas de uma agencia pelo codigo.");
         printf("\n5. Sair");
-        printf("\nEscolha uma opcao: ");
-        scanf("%d", &opcao);
-        limpar_buffer(); // Limpar buffer após o scanf
+        opcao = le_opcao('1', '5');
 
         switch (opcao)
         {

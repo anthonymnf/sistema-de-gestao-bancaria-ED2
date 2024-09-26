@@ -80,3 +80,27 @@ void liberar_contas(ContaBancaria *raiz)
         free(raiz);
     }
 }
+
+char le_opcao(int menorvalor, int maiorvalor)
+{
+   int op;
+   char entrada[51];
+   while (1)
+   {
+      printf("Opção: ");
+      scanf(" %[^\n]", entrada);
+      op = entrada[0];
+      if (op >= menorvalor && op <= maiorvalor && strlen(entrada) == 1)
+      {
+         limpa_buffer();
+         break;
+      }
+      else
+      {
+         printf("Opção inválida!\nDigite uma opção entre %c e %c.\n", menorvalor, maiorvalor);
+         ;
+         limpa_buffer();
+      }
+   }
+   return op;
+}
