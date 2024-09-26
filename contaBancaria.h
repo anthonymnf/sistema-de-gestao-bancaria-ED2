@@ -1,6 +1,12 @@
 #ifndef CONTABANCARIA_H
 #define CONTABANCARIA_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <ctype.h>
+
 typedef struct ContaBancaria
 {
     int numero;
@@ -19,5 +25,8 @@ void inserir_conta(ContaBancaria **raiz, ContaBancaria *novaConta);
 void listar_contas_agencia(ContaBancaria *raiz, int agenciaNumero);
 void salvar_contas(ContaBancaria *contas, FILE *file);
 void liberar_contas(ContaBancaria *raiz);
+char le_opcao(int menorValor, int maiorValor);
+void limpa_buffer(void);
+bool entradaContemApenasDigitos(const char *entrada);
 
 #endif // CONTABANCARIA_H

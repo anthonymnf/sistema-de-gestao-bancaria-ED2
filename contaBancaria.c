@@ -1,7 +1,4 @@
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "contaBancaria.h"
 
 ContaBancaria *criar_conta(int numero, int agenciaNumero, const char *nomeCliente, const char *dataAbertura, float saldo, const char *status)
@@ -79,4 +76,52 @@ void liberar_contas(ContaBancaria *raiz)
         liberar_contas(raiz->direita);
         free(raiz);
     }
+}
+
+char le_opcao(int menorvalor, int maiorvalor)
+{
+   int op;
+   char entrada[51];
+   while (1)
+   {
+      printf("Opção: ");
+      scanf(" %[^\n]", entrada);
+      op = entrada[0];
+      if (op >= menorvalor && op <= maiorvalor && strlen(entrada) == 1)
+      {
+         limpa_buffer();
+         break;
+      }
+      else
+      {
+         printf("Opção inválida!\nDigite uma opção entre %c e %c.\n", menorvalor, maiorvalor);
+         ;
+         limpa_buffer();
+      }
+   }
+   return op;
+}
+
+
+void limpa_buffer(void)
+{
+   int valorlido;
+   do
+   {
+      valorlido = getchar();
+   } while ((valorlido != '\n') && (valorlido != EOF));
+}
+
+
+// Função para verificar se a entrada contém apenas dígitos (números)
+bool entradaContemApenasDigitos(const char *entrada)
+{
+   for (int i = 0; entrada[i] != '\0'; i++)
+   {
+      if (!isdigit(entrada[i]))
+      {
+         return false;
+      }
+   }
+   return true;
 }
