@@ -126,3 +126,13 @@ void salvar_arquivo(Agencia *raiz, const char *nome_arquivo)
     printf("Erro ao abrir o arquivo para salvar.\n");
   }
 }
+
+Agencia *buscar_agencia(Agencia *raiz, int codigo)
+{
+  if (raiz == NULL || raiz->codigo == codigo)
+    return raiz;
+  if (codigo < raiz->codigo)
+    return buscar_agencia(raiz->esquerda, codigo);
+  else
+    return buscar_agencia(raiz->direita, codigo);
+}
