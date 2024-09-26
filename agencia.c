@@ -163,3 +163,30 @@ int verificar_somente_letras(const char *str)
   }
   return 1; // Retorna 1 se todas forem letras ou espaços
 }
+
+// Função para ler todas as contas do arquivo contas.txt
+void ler_contas(Agencia *raiz_agencias, FILE *file)
+{
+  int agenciaNumero, numero;
+  char nomeCliente[51], dataAbertura[11], status[10];
+  float saldo;
+
+  while (fscanf(file, "Agencia %d\tConta %d\tCliente:%50[^\t]\tData:%10[^\t]\tSaldo:%f\tStatus:%9[^\n]\n",
+                &agenciaNumero, &numero, nomeCliente, dataAbertura, &saldo, status) == 6)
+  {
+    // Criar a nova conta lida do arquivo
+    ContaBancaria *novaConta = criar_conta(numero, agenciaNumero, nomeCliente, dataAbertura, saldo, status);
+
+    // Encontrar a agência correspondente
+    Agencia *agencia = buscar_agencia(raiz_agencias, agenciaNumero);
+    if (agencia != NULL)
+    {
+      // Inserir a conta na árvore de contas da agência encontrada
+      inserir_conta(&(agencia->contas), novaConta);
+    }
+    else
+    {
+      printf("Agencia %d nao encontrada para a conta %d.\n", agenciaNumero, numero);
+    }
+  }
+}
