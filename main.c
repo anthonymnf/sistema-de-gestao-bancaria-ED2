@@ -26,16 +26,21 @@ int main()
         fclose(file);
     }
 
-    char opcao;                // Armazena a opção verificada
-    bool numValido = false;    // Variável para verificar se o numero do codigo da agencia fornecido é válido
-    char input[50];            // Armazena número como string
-    int numAgencia;            //  Variável para armazenar o valor do codigo de uma agência
-    int localizacaoValida = 0; // Variável para verificar se a localização da agência fornecida é válida
+    char opcao;                 // Armazena a opção verificada
+    bool numValido = false;     // Variável para verificar se o numero do codigo da agencia fornecido é válido
+    char input[50];             // Armazena número como string
+    int numAgencia;             //  Variável para armazenar o valor do codigo de uma agência
+    int localizacaoValida = 0;  // Variável para verificar se a localização da agência fornecida é válida
     bool horarioValido = false; // Variável para verificar se o horario de funcionamento fornecida é válido
     int nomeValido = 0;         // Variável para verificar se o nome da agência fornecido é válido
+    int numContaValido = 0;     // Variável para verificar se o numero da conta fornecido é válido
 
     int codigo;
     char nome[51], localizacao[101], horario[20];
+
+    int numero, agenciaNumero;
+    char nomeCliente[51], dataAbertura[11], status[10];
+    float saldo;
     do
     {
         printf("\n\t MENU DE OPCOES \n");
@@ -150,7 +155,8 @@ int main()
 
                 // Limpar o buffer de entrada
                 int c;
-                while ((c = getchar()) != '\n' && c != EOF);
+                while ((c = getchar()) != '\n' && c != EOF)
+                    ;
             }
 
             Agencia *novaAgencia = criar_agencia(codigo, nome, localizacao, horario);
@@ -168,13 +174,35 @@ int main()
 
         case '2':
         {
-            int numero, agenciaNumero;
-            char nomeCliente[51], dataAbertura[11], status[10];
-            float saldo;
+            // Verifica se o numero da conta fornecido é válido
+            while (1)
+            {
+                printf("Informe o numero da conta: ");
+                if (fgets(input, sizeof(input), stdin))
+                {
+                    int valido = 1;
 
-            printf("Digite o numero da conta: ");
-            scanf("%d", &numero);
-            limpa_buffer();
+                    for (int i = 0; input[i] != '\0'; i++)
+                    {
+                        if (!isdigit(input[i]) && input[i] != '\n')
+                        {
+                            valido = 0;
+                            break;
+                        }
+                    }
+
+                    if (valido && sscanf(input, "%d", &numero) == 1)
+                    {
+                        numContaValido = 1;
+                        break; // Saia do loop se o número for válido
+                    }
+                    else
+                    {
+                        printf("Entrada invalida. Digite novamente (somente numeros):\n");
+                    }
+                }
+            }
+
 
             printf("Digite o numero da agencia: ");
             scanf("%d", &agenciaNumero);
