@@ -136,3 +136,17 @@ Agencia *buscar_agencia(Agencia *raiz, int codigo)
   else
     return buscar_agencia(raiz->direita, codigo);
 }
+
+void listar_contas_agencia(ContaBancaria *raiz, int agenciaNumero)
+{
+  if (raiz != NULL)
+  {
+    listar_contas_agencia(raiz->esquerda, agenciaNumero);
+    if (raiz->agenciaNumero == agenciaNumero)
+    {
+      printf("Numero:%d\tCliente:%s\tData:%s\tSaldo:%.2f\tStatus:%s\n",
+             raiz->numero, raiz->nomeCliente, raiz->dataAbertura, raiz->saldo, raiz->status);
+    }
+    listar_contas_agencia(raiz->direita, agenciaNumero);
+  }
+}
