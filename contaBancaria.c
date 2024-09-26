@@ -84,7 +84,7 @@ char le_opcao(int menorvalor, int maiorvalor)
    char entrada[51];
    while (1)
    {
-      printf("Opção: ");
+      printf("Opcao: ");
       scanf(" %[^\n]", entrada);
       op = entrada[0];
       if (op >= menorvalor && op <= maiorvalor && strlen(entrada) == 1)
