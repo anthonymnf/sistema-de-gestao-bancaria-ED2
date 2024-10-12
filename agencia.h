@@ -13,7 +13,7 @@ typedef struct Agencia
     struct Agencia *direita;
 } Agencia;
 
-#define INITIAL_TABLE_SIZE 10
+#define INITIAL_TABLE_SIZE 100
 
 typedef struct HashEntry
 {
@@ -37,9 +37,6 @@ void inserir_agencia(Agencia **raiz, Agencia *novaAgencia);
 
 // Busca uma agência pelo código na árvore.
 Agencia *buscar_agencia(Agencia *raiz, int codigo);
-
-// Lista todas as agências na árvore.
-// void listar_agencias(Agencia *raiz);
 
 // Salva todas as agências em um arquivo.
 void salvar_agencias(Agencia *raiz, FILE *file);

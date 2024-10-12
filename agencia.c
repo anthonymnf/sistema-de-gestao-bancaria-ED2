@@ -43,17 +43,6 @@ void inserir_agencia(Agencia **raiz, Agencia *novaAgencia)
   }
 }
 
-/*void listar_agencias(Agencia *raiz)
-{
-  if (raiz != NULL)
-  {
-    listar_agencias(raiz->esquerda);
-    printf("Agencia: %d, Nome: %s, Localizacao: %s, Horario: %s\n",
-           raiz->codigo, raiz->nome, raiz->localizacao, raiz->horario);
-    listar_agencias(raiz->direita);
-  }
-}*/
-
 // Função para salvar as agencias no arquivo agencias.txt
 void salvar_agencias(Agencia *raiz, FILE *file)
 {
