@@ -43,4 +43,8 @@ int verificar_somente_letras(const char *str);
 // Lê as contas bancárias de um arquivo e associa às agências.
 void ler_contas(Agencia *raiz_agencias, FILE *file);
 
+// Busca uma conta com maior saldo.
+void buscar_maior_saldo(Agencia *agencia);
+
+
 #endif // AGENCIA_H

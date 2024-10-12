@@ -190,3 +190,30 @@ void ler_contas(Agencia *raiz_agencias, FILE *file)
     }
   }
 }
+
+
+void buscar_maior_saldo(Agencia *agencia) {
+    Heap heap;
+    inicializar_heap(&heap);
+
+    // Percorrer a árvore de contas e inserir cada conta na heap
+    if (agencia != NULL) {
+        percorrer_arvore(agencia->contas, &heap); // Chama a função de percorrer
+
+        // Obter a conta com o maior saldo
+        ContaBancaria *contaMaiorSaldo = obter_maior_saldo(&heap);
+        if (contaMaiorSaldo != NULL) {
+            printf("Conta com maior saldo:\n");
+            printf("Numero: %d\n", contaMaiorSaldo->numero);
+            printf("Agencia: %d\n", contaMaiorSaldo->agenciaNumero);
+            printf("Nome do Cliente: %s\n", contaMaiorSaldo->nomeCliente);
+            printf("Data de Abertura: %s\n", contaMaiorSaldo->dataAbertura);
+            printf("Saldo: %.2f\n", contaMaiorSaldo->saldo);
+            printf("Status: %s\n", contaMaiorSaldo->status);
+        } else {
+            printf("Nenhuma conta encontrada na agência.\n");
+        }
+    } else {
+        printf("Agência não encontrada.\n");
+    }
+}
