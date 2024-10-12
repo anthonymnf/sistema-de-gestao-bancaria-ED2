@@ -26,6 +26,9 @@ int main()
         fclose(file);
     }
 
+    // Cria uma tabela hash
+    HashTable *tabela_hash = criar_tabela_hash(INITIAL_TABLE_SIZE);
+
     char opcao;     // Armazena a opção verificada
     char input[50]; // Armazena número como string
 
@@ -365,7 +368,9 @@ int main()
                     }
                     case '2':
                     {
-                        listar_agencias(raiz_agencias);
+                        // Pega agências da árvore e insere na tabela hash
+                        pegar_agencias_da_arvore(raiz_agencias, tabela_hash);
+                        listar_agencias_hash(tabela_hash);
                         break;
                     }
                     }
@@ -518,7 +523,10 @@ int main()
             break;
         }
         case '3':
-            listar_agencias(raiz_agencias); // Exibir todas as agências
+            // Pega agências da árvore e insere na tabela hash
+            pegar_agencias_da_arvore(raiz_agencias, tabela_hash);
+            // Lista todas as agências
+            listar_agencias_hash(tabela_hash);
             break;
         case '4':
         {
@@ -594,7 +602,7 @@ int main()
             {
                 buscar_maior_saldo(agencia);
             }
-            break; 
+            break;
         }
 
         case '6':
@@ -606,6 +614,9 @@ int main()
 
     // Liberar a memória alocada para as agências e suas contas
     liberar_agencias(raiz_agencias);
+
+    // libera a memória usada pela tabela hash e suas entradas
+    liberar_tabela_hash(tabela_hash);
 
     return 0;
 }

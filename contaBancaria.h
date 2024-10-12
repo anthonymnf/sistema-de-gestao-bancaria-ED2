@@ -21,10 +21,12 @@ typedef struct ContaBancaria
 
 #define MAX_HEAP_SIZE 100 // Tamanho máximo da heap (pode ser ajustado)
 
-typedef struct Heap {
+typedef struct Heap
+{
     ContaBancaria *contas[MAX_HEAP_SIZE];
     int tamanho; // Número atual de contas na heap
 } Heap;
+
 
 // Cria uma nova conta bancária com os parâmetros fornecidos.
 ContaBancaria *criar_conta(int numero, int agenciaNumero, const char *nomeCliente, const char *dataAbertura, float saldo, const char *status);
@@ -61,4 +63,6 @@ ContaBancaria *obter_maior_saldo(Heap *heap);
 
 // Função recursiva para percorrer a árvore
 void percorrer_arvore(ContaBancaria *raiz, Heap *heap);
+
+
 #endif // CONTABANCARIA_H
