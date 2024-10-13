@@ -84,7 +84,7 @@ char le_opcao(int menorvalor, int maiorvalor)
    char entrada[51];
    while (1)
    {
-      printf("Opção: ");
+      printf("Opcao: ");
       scanf(" %[^\n]", entrada);
       op = entrada[0];
       if (op >= menorvalor && op <= maiorvalor && strlen(entrada) == 1)
@@ -124,4 +124,44 @@ bool entradaContemApenasDigitos(const char *entrada)
       }
    }
    return true;
+}
+
+
+void percorrer_arvore(ContaBancaria *raiz, Heap *heap) {
+    if (raiz != NULL) {
+        inserir_heap(heap, raiz); // Insere a conta na heap
+        percorrer_arvore(raiz->esquerda, heap); // Percorre a subárvore esquerda
+        percorrer_arvore(raiz->direita, heap);  // Percorre a subárvore direita
+    }
+}
+
+// Função para inicializar a heap
+void inicializar_heap(Heap *heap) {
+    heap->tamanho = 0;
+}
+
+// Função para inserir uma conta na heap
+void inserir_heap(Heap *heap, ContaBancaria *conta) {
+    if (heap->tamanho < MAX_HEAP_SIZE) {
+        heap->contas[heap->tamanho] = conta;
+        int i = heap->tamanho;
+        heap->tamanho++;
+
+        // Ajusta a heap para manter a propriedade de max-heap
+        while (i > 0 && heap->contas[i]->saldo > heap->contas[(i - 1) / 2]->saldo) {
+            // Troca com o pai
+            ContaBancaria *temp = heap->contas[i];
+            heap->contas[i] = heap->contas[(i - 1) / 2];
+            heap->contas[(i - 1) / 2] = temp;
+            i = (i - 1) / 2;
+        }
+    }
+}
+
+// Função para obter a conta com o maior saldo (a raiz da heap)
+ContaBancaria *obter_maior_saldo(Heap *heap) {
+    if (heap->tamanho > 0) {
+        return heap->contas[0];
+    }
+    return NULL; // Heap vazia
 }

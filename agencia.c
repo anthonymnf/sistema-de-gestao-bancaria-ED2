@@ -43,17 +43,6 @@ void inserir_agencia(Agencia **raiz, Agencia *novaAgencia)
   }
 }
 
-void listar_agencias(Agencia *raiz)
-{
-  if (raiz != NULL)
-  {
-    listar_agencias(raiz->esquerda);
-    printf("Agencia: %d, Nome: %s, Localizacao: %s, Horario: %s\n",
-           raiz->codigo, raiz->nome, raiz->localizacao, raiz->horario);
-    listar_agencias(raiz->direita);
-  }
-}
-
 // Função para salvar as agencias no arquivo agencias.txt
 void salvar_agencias(Agencia *raiz, FILE *file)
 {
@@ -189,4 +178,139 @@ void ler_contas(Agencia *raiz_agencias, FILE *file)
       printf("Agencia %d nao encontrada para a conta %d.\n", agenciaNumero, numero);
     }
   }
+}
+
+void buscar_maior_saldo(Agencia *agencia)
+{
+  Heap heap;
+  inicializar_heap(&heap);
+
+  // Percorrer a árvore de contas e inserir cada conta na heap
+  if (agencia != NULL)
+  {
+    percorrer_arvore(agencia->contas, &heap); // Chama a função de percorrer
+
+    // Obter a conta com o maior saldo
+    ContaBancaria *contaMaiorSaldo = obter_maior_saldo(&heap);
+    if (contaMaiorSaldo != NULL)
+    {
+      printf("Conta com maior saldo:\n");
+      printf("Numero: %d\n", contaMaiorSaldo->numero);
+      printf("Agencia: %d\n", contaMaiorSaldo->agenciaNumero);
+      printf("Nome do Cliente: %s\n", contaMaiorSaldo->nomeCliente);
+      printf("Data de Abertura: %s\n", contaMaiorSaldo->dataAbertura);
+      printf("Saldo: %.2f\n", contaMaiorSaldo->saldo);
+      printf("Status: %s\n", contaMaiorSaldo->status);
+    }
+    else
+    {
+      printf("Nenhuma conta encontrada na agencia.\n");
+    }
+  }
+  else
+  {
+    printf("Agência não encontrada.\n");
+  }
+}
+
+HashTable *criar_tabela_hash(int tamanho)
+{
+  HashTable *tabela = (HashTable *)malloc(sizeof(HashTable));
+  tabela->tamanho = tamanho;
+  tabela->num_agencias = 0;
+  tabela->entradas = (HashEntry **)malloc(tamanho * sizeof(HashEntry *));
+
+  for (int i = 0; i < tamanho; i++)
+  {
+    tabela->entradas[i] = NULL; // Inicializa todas as entradas como NULL
+  }
+  return tabela;
+}
+
+int funcao_hash(int codigo, int tamanho)
+{
+  return codigo % tamanho; // Usando o módulo para determinar o índice
+}
+
+void inserir_agencia_hash(HashTable *tabela, Agencia *agencia)
+{
+  if (tabela->num_agencias >= tabela->tamanho)
+  {
+    // Dobrar o tamanho da tabela se necessário
+    int novo_tamanho = tabela->tamanho * 2;
+    HashEntry **novas_entradas = (HashEntry **)malloc(novo_tamanho * sizeof(HashEntry *));
+
+    for (int i = 0; i < novo_tamanho; i++)
+    {
+      novas_entradas[i] = NULL; // Inicializa todas as novas entradas como NULL
+    }
+
+    // Rehash de todas as entradas existentes
+    for (int i = 0; i < tabela->tamanho; i++)
+    {
+      HashEntry *atual = tabela->entradas[i];
+      while (atual != NULL)
+      {
+        HashEntry *proximo = atual->proximo; // Armazena próximo
+        int novo_indice = funcao_hash(atual->codigo, novo_tamanho);
+
+        atual->proximo = novas_entradas[novo_indice]; // Adiciona na nova tabela
+        novas_entradas[novo_indice] = atual;          // Atualiza a entrada
+        atual = proximo;                              // Move para o próximo
+      }
+    }
+
+    free(tabela->entradas);            // Libera a memória da tabela antiga
+    tabela->entradas = novas_entradas; // Aponta para a nova tabela
+    tabela->tamanho = novo_tamanho;    // Atualiza o tamanho
+  }
+
+  int indice = funcao_hash(agencia->codigo, tabela->tamanho);
+  HashEntry *nova_entrada = (HashEntry *)malloc(sizeof(HashEntry));
+  nova_entrada->codigo = agencia->codigo;
+  nova_entrada->agencia = agencia;
+  nova_entrada->proximo = tabela->entradas[indice]; // Coloca na lista
+  tabela->entradas[indice] = nova_entrada;          // Adiciona a nova entrada
+  tabela->num_agencias++;                           // Incrementa o número de agências
+}
+
+void listar_agencias_hash(HashTable *tabela)
+{
+  for (int i = 0; i < tabela->tamanho; i++)
+  {
+    HashEntry *entrada = tabela->entradas[i];
+    while (entrada != NULL)
+    {
+      printf("Agencia: %d, Nome: %s, Localizacao: %s, Horario: %s\n",
+             entrada->agencia->codigo, entrada->agencia->nome,
+             entrada->agencia->localizacao, entrada->agencia->horario);
+      entrada = entrada->proximo; // Move para o próximo na lista
+    }
+  }
+}
+
+void pegar_agencias_da_arvore(Agencia *raiz, HashTable *tabela)
+{
+  if (raiz != NULL)
+  {
+    pegar_agencias_da_arvore(raiz->esquerda, tabela);
+    inserir_agencia_hash(tabela, raiz); // Insere a agência na tabela hash
+    pegar_agencias_da_arvore(raiz->direita, tabela);
+  }
+}
+
+void liberar_tabela_hash(HashTable *tabela)
+{
+  for (int i = 0; i < tabela->tamanho; i++)
+  {
+    HashEntry *entrada = tabela->entradas[i];
+    while (entrada != NULL)
+    {
+      HashEntry *proximo = entrada->proximo;
+      free(entrada); // Libera a entrada
+      entrada = proximo;
+    }
+  }
+  free(tabela->entradas); // Libera o array de entradas
+  free(tabela);           // Libera a tabela hash
 }

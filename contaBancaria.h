@@ -19,6 +19,15 @@ typedef struct ContaBancaria
     struct ContaBancaria *direita;
 } ContaBancaria;
 
+#define MAX_HEAP_SIZE 100 // Tamanho máximo da heap (pode ser ajustado)
+
+typedef struct Heap
+{
+    ContaBancaria *contas[MAX_HEAP_SIZE];
+    int tamanho; // Número atual de contas na heap
+} Heap;
+
+
 // Cria uma nova conta bancária com os parâmetros fornecidos.
 ContaBancaria *criar_conta(int numero, int agenciaNumero, const char *nomeCliente, const char *dataAbertura, float saldo, const char *status);
 
@@ -42,5 +51,18 @@ void limpa_buffer(void);
 
 // Verifica se a entrada contém apenas dígitos.
 bool entradaContemApenasDigitos(const char *entrada);
+
+// Função para inicializar a heap
+void inicializar_heap(Heap *heap);
+
+// Função para inserir uma conta na heap
+void inserir_heap(Heap *heap, ContaBancaria *conta);
+
+// Função para obter a conta com o maior saldo (a raiz da heap)
+ContaBancaria *obter_maior_saldo(Heap *heap);
+
+// Função recursiva para percorrer a árvore
+void percorrer_arvore(ContaBancaria *raiz, Heap *heap);
+
 
 #endif // CONTABANCARIA_H

@@ -26,6 +26,9 @@ int main()
         fclose(file);
     }
 
+    // Cria uma tabela hash
+    HashTable *tabela_hash = criar_tabela_hash(INITIAL_TABLE_SIZE);
+
     char opcao;     // Armazena a opção verificada
     char input[50]; // Armazena número como string
 
@@ -45,9 +48,10 @@ int main()
         printf("\n2. ADICIONAR NOVA CONTA BANCARIA.");
         printf("\n3. LISTAR TODAS AS AGENCIAS.");
         printf("\n4. LISTAR TODAS AS CONTAS DE UMA AGENCIA PELO CODIGO.");
-        printf("\n5. SAIR\n");
+        printf("\n5. BUSCAR CONTA COM MAIOR SALDO.");
+        printf("\n6. SAIR\n");
 
-        opcao = le_opcao('1', '5');
+        opcao = le_opcao('1', '6');
 
         switch (opcao)
         {
@@ -364,7 +368,9 @@ int main()
                     }
                     case '2':
                     {
-                        listar_agencias(raiz_agencias);
+                        // Pega agências da árvore e insere na tabela hash
+                        pegar_agencias_da_arvore(raiz_agencias, tabela_hash);
+                        listar_agencias_hash(tabela_hash);
                         break;
                     }
                     }
@@ -517,11 +523,14 @@ int main()
             break;
         }
         case '3':
-            listar_agencias(raiz_agencias); // Exibir todas as agências
+            // Pega agências da árvore e insere na tabela hash
+            pegar_agencias_da_arvore(raiz_agencias, tabela_hash);
+            // Lista todas as agências
+            listar_agencias_hash(tabela_hash);
             break;
         case '4':
         {
-            bool numValido = false;     // Variável para verificar se o numero do codigo da agencia fornecido é válido
+            bool numValido = false; // Variável para verificar se o numero do codigo da agencia fornecido é válido
             int codigo_agencia;
             // Verifica se o numero do codigo da agencia fornecido é válido
             do
@@ -560,14 +569,54 @@ int main()
             break;
         }
         case '5':
+        {
+            bool numValido = false; // Variável para verificar se o número do código da agência fornecido é válido
+            do
+            {
+                printf("Informe o codigo da agencia: ");
+                if (scanf(" %49s", input) != 1)
+                {
+                    printf("Entrada invalida. Tente novamente.\n");
+                    while (getchar() != '\n')
+                    {
+                        // Limpa o buffer de entrada para evitar loop infinito
+                    }
+                }
+                else if (!entradaContemApenasDigitos(input))
+                {
+                    printf("Entrada invalida. Apenas numeros sao permitidos. Tente novamente.\n");
+                }
+                else
+                {
+                    sscanf(input, "%d", &agenciaNumero);
+                    numValido = true;
+                }
+            } while (!numValido);
+
+            Agencia *agencia = buscar_agencia(raiz_agencias, agenciaNumero);
+            if (agencia == NULL)
+            {
+                printf("Agencia nao existe. Tente novamente.\n");
+            }
+            else
+            {
+                buscar_maior_saldo(agencia);
+            }
+            break;
+        }
+
+        case '6':
 
             printf("Programa finalizado com sucesso! Obrigado por usar nosso programa.\n");
             break;
         }
-    } while (opcao != '5');
+    } while (opcao != '6');
 
     // Liberar a memória alocada para as agências e suas contas
     liberar_agencias(raiz_agencias);
+
+    // libera a memória usada pela tabela hash e suas entradas
+    liberar_tabela_hash(tabela_hash);
 
     return 0;
 }
