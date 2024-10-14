@@ -76,4 +76,8 @@ void pegar_agencias_da_arvore(Agencia *raiz, HashTable *tabela);
 
 // função para liberar a memória alocada para a tabela hash e suas entradas
 void liberar_tabela_hash(HashTable *tabela);
+
+// função para adicionar uma nova agência
+void adicionar_nova_agencia(Agencia **raiz);
+
 #endif // AGENCIA_H

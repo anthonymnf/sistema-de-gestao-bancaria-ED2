@@ -57,115 +57,8 @@ int main()
         {
         case '1':
         {
-            bool numValido = false;     // Variável para verificar se o numero do codigo da agencia fornecido é válido
-            int nomeValido = 0;         // Variável para verificar se o nome da agência fornecido é válido
-            int localizacaoValida = 0;  // Variável para verificar se a localização da agência fornecida é válida
-            bool horarioValido = false; // Variável para verificar se o horario de funcionamento fornecida é válido
-
-            // Verifica se o numero do codigo da agencia fornecido é válido
-            do
-            {
-                printf("Informe o codigo da agencia: ");
-                if (scanf(" %49s", input) != 1)
-                {
-                    printf("Entrada invalida. Tente novamente.\n");
-                    while (getchar() != '\n')
-                    {
-                        // Limpa o buffer de entrada para evitar loop infinito
-                    }
-                }
-                else if (!entradaContemApenasDigitos(input))
-                {
-                    printf("Entrada invalida. Apenas numeros sao permitidos. Tente novamente.\n");
-                }
-                else
-                {
-                    sscanf(input, "%d", &codigo);
-                    numValido = true;
-                }
-            } while (!numValido);
-
-            // Verifica se o nome da agência fornecido é válido
-            do
-            {
-                printf("Informe o nome da agencia: ");
-                scanf(" %[^\n]", nome);
-                getchar(); // Limpar o buffer
-
-                nomeValido = 1;
-                for (int i = 0; nome[i] != '\0'; i++)
-                {
-                    if (!isalpha(nome[i]) && !isspace(nome[i]))
-                    {
-                        nomeValido = 0;
-                        break;
-                    }
-                }
-
-                if (!nomeValido)
-                {
-                    printf("O nome digitado contem caracteres invalidos.\n");
-                }
-            } while (!nomeValido);
-
-            // Verifica se a localização da agência fornecida é válida
-            do
-            {
-                printf("Informe a localizacao da agencia: ");
-                scanf(" %[^\n]", localizacao);
-                getchar(); // Limpar o buffer
-
-                localizacaoValida = 1;
-                for (int i = 0; localizacao[i] != '\0'; i++)
-                {
-                    if (!isalpha(localizacao[i]) && !isspace(localizacao[i]))
-                    {
-                        localizacaoValida = 0;
-                        break;
-                    }
-                }
-
-                if (!localizacaoValida)
-                {
-                    printf("A localizacao digitada contem caracteres invalidos.\n");
-                }
-            } while (!localizacaoValida);
-
-            // Verifica se o horário de funcionamento da agência fornecido é válido
-            while (!horarioValido)
-            {
-                printf("Informe o horario de funcionamento da agencia (entrada saida, no formato HH:MM HH:MM): ");
-                scanf(" %12[^\n]", horario); // Limitar a leitura a 12 caracteres, deixando espaço para o caractere nulo
-
-                int entradaHoras, entradaMinutos, saidaHoras, saidaMinutos;
-
-                // Verificar se a entrada tem o formato correto HH:MM HH:MM
-                if (sscanf(horario, "%d:%d %d:%d", &entradaHoras, &entradaMinutos, &saidaHoras, &saidaMinutos) == 4)
-                {
-                    // Verificar se as horas e minutos estão em faixas válidas
-                    if (entradaHoras >= 0 && entradaHoras <= 23 && entradaMinutos >= 0 && entradaMinutos <= 59 &&
-                        saidaHoras >= 0 && saidaHoras <= 23 && saidaMinutos >= 0 && saidaMinutos <= 59)
-                    {
-                        horarioValido = true;
-                    }
-                    else
-                    {
-                        printf("Horario invalido. Certifique-se de que as horas estejam entre 0 e 23 e os minutos entre 0 e 59.\n");
-                    }
-                }
-                else
-                {
-                    printf("Formato invalido. Use o formato HH:MM HH:MM.\n");
-                }
-
-                // Limpar o buffer de entrada
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF)
-                    ;
-            }
-
-            Agencia *novaAgencia = criar_agencia(codigo, nome, localizacao, horario);
-            inserir_agencia(&raiz_agencias, novaAgencia);
+            // Chama a função para adicionar uma nova agência
+            adicionar_nova_agencia(&raiz_agencias);
 
             // Salvar as agências no arquivo
             file = fopen("agencias.txt", "w");
@@ -245,117 +138,15 @@ int main()
                 do
                 {
                     printf("Agencia nao encontrada.\n");
-                    printf("1. Criar nova agencia\n2. Ver agencias disponiveis\n");
-                    escolha = le_opcao('1', '2');
+                    printf("1. Criar nova agencia\n2. Ver agencias disponiveis\n3. Sair\n");
+                    escolha = le_opcao('1', '3');
 
                     switch (escolha)
                     {
                     case '1':
                     {
-                        // Lógica para adicionar nova agência (similar ao case 1)
-                        // Verifica se o numero do codigo da agencia fornecido é válido
-                        do
-                        {
-                            printf("Informe o codigo da agencia: ");
-                            if (scanf(" %49s", input) != 1)
-                            {
-                                printf("Entrada invalida. Tente novamente.\n");
-                                while (getchar() != '\n')
-                                {
-                                    // Limpa o buffer de entrada para evitar loop infinito
-                                }
-                            }
-                            else if (!entradaContemApenasDigitos(input))
-                            {
-                                printf("Entrada invalida. Apenas numeros sao permitidos. Tente novamente.\n");
-                            }
-                            else
-                            {
-                                sscanf(input, "%d", &codigo);
-                                numValido = true;
-                            }
-                        } while (!numValido);
-
-                        // Verifica se o nome da agência fornecido é válido
-                        do
-                        {
-                            printf("Informe o nome da agência: ");
-                            scanf(" %[^\n]", nome);
-                            getchar(); // Limpar o buffer
-
-                            nomeValido = 1;
-                            for (int i = 0; nome[i] != '\0'; i++)
-                            {
-                                if (!isalpha(nome[i]) && !isspace(nome[i]))
-                                {
-                                    nomeValido = 0;
-                                    break;
-                                }
-                            }
-
-                            if (!nomeValido)
-                            {
-                                printf("O nome digitado contém caracteres inválidos.\n");
-                            }
-                        } while (!nomeValido);
-
-                        // Verifica se a localização da agência fornecida é válida
-                        do
-                        {
-                            printf("Informe a localizacao da agencia: ");
-                            scanf(" %[^\n]", localizacao);
-                            getchar(); // Limpar o buffer
-
-                            localizacaoValida = 1;
-                            for (int i = 0; localizacao[i] != '\0'; i++)
-                            {
-                                if (!isalpha(localizacao[i]) && !isspace(localizacao[i]))
-                                {
-                                    localizacaoValida = 0;
-                                    break;
-                                }
-                            }
-
-                            if (!localizacaoValida)
-                            {
-                                printf("A localizacao digitada contem caracteres invalidos.\n");
-                            }
-                        } while (!localizacaoValida);
-
-                        // Verifica se o horário de funcionamento da agência fornecido é válido
-                        while (!horarioValido)
-                        {
-                            printf("Informe o horario de funcionamento da agencia (entrada saida, no formato HH:MM HH:MM): ");
-                            scanf(" %12[^\n]", horario); // Limitar a leitura a 12 caracteres, deixando espaço para o caractere nulo
-
-                            int entradaHoras, entradaMinutos, saidaHoras, saidaMinutos;
-
-                            // Verificar se a entrada tem o formato correto HH:MM HH:MM
-                            if (sscanf(horario, "%d:%d %d:%d", &entradaHoras, &entradaMinutos, &saidaHoras, &saidaMinutos) == 4)
-                            {
-                                // Verificar se as horas e minutos estão em faixas válidas
-                                if (entradaHoras >= 0 && entradaHoras <= 23 && entradaMinutos >= 0 && entradaMinutos <= 59 &&
-                                    saidaHoras >= 0 && saidaHoras <= 23 && saidaMinutos >= 0 && saidaMinutos <= 59)
-                                {
-                                    horarioValido = true;
-                                }
-                                else
-                                {
-                                    printf("Horario invalido. Certifique-se de que as horas estejam entre 0 e 23 e os minutos entre 0 e 59.\n");
-                                }
-                            }
-                            else
-                            {
-                                printf("Formato invalido. Use o formato HH:MM HH:MM.\n");
-                            }
-
-                            // Limpar o buffer de entrada
-                            int c;
-                            while ((c = getchar()) != '\n' && c != EOF)
-                                ;
-                        }
-                        Agencia *novaAgencia = criar_agencia(codigo, nome, localizacao, horario);
-                        inserir_agencia(&raiz_agencias, novaAgencia);
+                        // Lógica para adicionar nova agência
+                        adicionar_nova_agencia(&raiz_agencias);
 
                         // Salvar as agências no arquivo
                         file = fopen("agencias.txt", "w");
@@ -364,6 +155,8 @@ int main()
                             salvar_agencias(raiz_agencias, file);
                             fclose(file);
                         }
+
+                        escolha = '3'; // Força a saída do laço após criar a nova agência
                         break;
                     }
                     case '2':
@@ -373,8 +166,12 @@ int main()
                         listar_agencias_hash(tabela_hash);
                         break;
                     }
+                    case '3':
+                    {
+                        break;
                     }
-                } while (escolha != '2');
+                    }
+                } while (escolha != '3');
             }
             if (agencia)
             {
@@ -439,6 +236,8 @@ int main()
                         printf("Formato de data inválido. Por favor, tente novamente.\n");
                     }
                 } while (!entradaValida);
+
+                float saldo = 0.0;
 
                 while (1)
                 {

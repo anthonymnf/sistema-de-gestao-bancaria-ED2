@@ -314,3 +314,124 @@ void liberar_tabela_hash(HashTable *tabela)
   free(tabela->entradas); // Libera o array de entradas
   free(tabela);           // Libera a tabela hash
 }
+
+void adicionar_nova_agencia(Agencia **raiz)
+{
+  char input[50];
+  char nome[51];
+  char localizacao[101];
+  char horario[20];
+  int codigo;
+  bool numValido = false;     // Variável para verificar se o número do código da agência fornecido é válido
+  int nomeValido = 0;         // Variável para verificar se o nome da agência fornecido é válido
+  int localizacaoValida = 0;  // Variável para verificar se a localização da agência fornecida é válida
+  bool horarioValido = false; // Variável para verificar se o horário de funcionamento fornecido é válido
+
+  // Verifica se o número do código da agência fornecido é válido
+  do
+  {
+    printf("Informe o codigo da agencia: ");
+    if (scanf(" %49s", input) != 1)
+    {
+      printf("Entrada invalida. Tente novamente.\n");
+      while (getchar() != '\n')
+      {
+        // Limpa o buffer de entrada para evitar loop infinito
+      }
+    }
+    else if (!entradaContemApenasDigitos(input))
+    {
+      printf("Entrada invalida. Apenas numeros sao permitidos. Tente novamente.\n");
+    }
+    else
+    {
+      sscanf(input, "%d", &codigo);
+      numValido = true;
+    }
+  } while (!numValido);
+
+  // Verifica se o nome da agência fornecido é válido
+  do
+  {
+    printf("Informe o nome da agencia: ");
+    scanf(" %[^\n]", nome);
+    getchar(); // Limpar o buffer
+
+    nomeValido = 1;
+    for (int i = 0; nome[i] != '\0'; i++)
+    {
+      if (!isalpha(nome[i]) && !isspace(nome[i]))
+      {
+        nomeValido = 0;
+        break;
+      }
+    }
+
+    if (!nomeValido)
+    {
+      printf("O nome digitado contem caracteres invalidos.\n");
+    }
+  } while (!nomeValido);
+
+  // Verifica se a localização da agência fornecida é válida
+  do
+  {
+    printf("Informe a localizacao da agencia: ");
+    scanf(" %[^\n]", localizacao);
+    getchar(); // Limpar o buffer
+
+    localizacaoValida = 1;
+    for (int i = 0; localizacao[i] != '\0'; i++)
+    {
+      if (!isalpha(localizacao[i]) && !isspace(localizacao[i]))
+      {
+        localizacaoValida = 0;
+        break;
+      }
+    }
+
+    if (!localizacaoValida)
+    {
+      printf("A localizacao digitada contem caracteres invalidos.\n");
+    }
+  } while (!localizacaoValida);
+
+  // Verifica se o horário de funcionamento da agência fornecido é válido
+  while (!horarioValido)
+  {
+    printf("Informe o horario de funcionamento da agencia (entrada saida, no formato HH:MM HH:MM): ");
+    scanf(" %12[^\n]", horario); // Limitar a leitura a 12 caracteres
+
+    int entradaHoras, entradaMinutos, saidaHoras, saidaMinutos;
+
+    // Verificar se a entrada tem o formato correto HH:MM HH:MM
+    if (sscanf(horario, "%d:%d %d:%d", &entradaHoras, &entradaMinutos, &saidaHoras, &saidaMinutos) == 4)
+    {
+      // Verificar se as horas e minutos estão em faixas válidas
+      if (entradaHoras >= 0 && entradaHoras <= 23 && entradaMinutos >= 0 && entradaMinutos <= 59 &&
+          saidaHoras >= 0 && saidaHoras <= 23 && saidaMinutos >= 0 && saidaMinutos <= 59)
+      {
+        horarioValido = true;
+      }
+      else
+      {
+        printf("Horario invalido. Certifique-se de que as horas estejam entre 0 e 23 e os minutos entre 0 e 59.\n");
+      }
+    }
+    else
+    {
+      printf("Formato invalido. Use o formato HH:MM HH:MM.\n");
+    }
+
+    // Limpar o buffer de entrada
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF)
+      ;
+  }
+
+  // Criar e inserir a nova agência
+  Agencia *novaAgencia = criar_agencia(codigo, nome, localizacao, horario);
+  inserir_agencia(raiz, novaAgencia);
+  printf("Agencia adicionada com sucesso!\n");
+}
+
