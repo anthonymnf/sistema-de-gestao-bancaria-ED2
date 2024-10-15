@@ -1,6 +1,6 @@
 # Sistema de Gestão Bancária
 
-Este projeto implementa um sistema de gestão bancária em linguagem C. Ele permite o cadastro, fornecimento e listagem de clientes em uma agência bancária, usando conceitos de alocação dinâmica, ponteiros, manipulação de arquivos e estruturas de dados como árvores. O sistema foi desenvolvido como parte da disciplina Algoritmos e Estruturas de Dados II.
+Este projeto implementa um sistema de gestão bancária em linguagem C. Ele permite o cadastro, fornecimento e listagem de clientes em uma agência bancária, usando conceitos de alocação dinâmica, ponteiros, manipulação de arquivos e estruturas de dados como árvores, HEAP e HASH. O sistema foi desenvolvido como parte da disciplina Algoritmos e Estruturas de Dados II.
 
 ## 🔥 Introdução
 
@@ -11,6 +11,7 @@ O Sistema de Gestão Bancária foi desenvolvido para simplificar a administraç�
 - Cadastro e gerenciamento de clientes e contas bancárias.
 - Listagem de agências cadastradas.
 - Listagem de todas as contas bancárias cadastradas em uma agência.
+- Buscar conta com maior saldo.
 - Persistência de dados em arquivos de texto.
 
 ### ⚙️ Pré-requisitos
@@ -51,6 +52,8 @@ Para testar as funcionalidades do sistema, execute o programa e siga as opções
 - Cadastrar uma nova agência e uma nova conta bancária.
 - Listar todas as agências cadastradas.
 - Listar todas as contas bancárias cadastradas nessa agência que foi criada.
+- Buscar conta com maior saldo.
+- Sair do programa e entrar novamente para conferir se os dados estão sendo persistidos.
 
 ## 📦 Tecnologias usadas:
 

@@ -1,6 +1,9 @@
 # Ignorar arquivos .exe
 *.exe
 
+# Ignorar arquivos .txt
+*.txt
+
 # Ignorar a pasta "output" e tudo dentro dela
 /output/
 output/
