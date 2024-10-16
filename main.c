@@ -207,6 +207,7 @@ int main()
                 {
                     printf("Informe a data de abertura da conta (dd/mm/aaaa): ");
                     scanf(" %11[^\n]", dataAbertura);
+                    fflush(stdin);
 
                     // Verifica se a entrada tem 10 caracteres, incluindo duas barras
                     if (strlen(dataAbertura) == 10)
